@@ -1,0 +1,103 @@
+# ========================================
+# BetterEconomy Messages Configuration
+# ========================================
+# Supports & and § color codes, and MiniMessage format
+# Available variables: {player}, {amount}, {balance}, {page}, {max_page}, {operator}, {time}, {type}, {rank}
+
+prefix: "&8[&6Economy&8] &r"
+
+general:
+  no-permission: "{prefix}&c你沒有權限執行此指令。"
+  player-not-found: "{prefix}&c找不到玩家 {player}。"
+  invalid-amount: "{prefix}&c請輸入有效的金額。"
+  reload-success: "{prefix}&a設定檔已重新載入。"
+  invalid-player-name: "{prefix}&c無效的玩家名稱格式。"
+  error-occurred: "{prefix}&c發生錯誤：{error}"
+
+balance:
+  self: "{prefix}&a你的餘額：&e{balance}"
+  others: "{prefix}&a{player} 的餘額：&e{balance}"
+  insufficient-balance: "{prefix}&c{player} 的餘額不足，無法扣除。"
+
+admin:
+  give-success: "{prefix}&a已增加 {player} &e{amount} &a的餘額，目前餘額：{balance}"
+  give-failed: "{prefix}&c增加 {player} 餘額失敗。"
+  
+  take-success: "{prefix}&a已扣除 {player} &e{amount} &a的餘額，目前餘額：{balance}"
+  take-failed: "{prefix}&c扣除 {player} 餘額失敗。"
+  insufficient-balance: "{prefix}&c{player} 的餘額不足，無法扣除。"
+  
+  set-success: "{prefix}&a已將 {player} 的餘額設定為 &e{balance}"
+  set-failed: "{prefix}&c設定 {player} 餘額失敗。"
+  
+  wipe-warning: "{prefix}&c&l警告&r：此操作將重置全服所有玩家的經濟資料！請於 30 秒內輸入 &e/economy confirm &c確認。"
+  wipe-confirmed: "{prefix}&a全服經濟資料已重置。"
+  wipe-timeout: "{prefix}&c確認已逾時，重置操作已取消。"
+  wipe-no-pending: "{prefix}&c目前沒有待確認的重置操作。"
+  
+  history-header: "{prefix}&e{player} 的金錢紀錄（第 {page}/{max_page} 頁）"
+  history-entry: "&7[{time}] &f{type} &e{amount} &7-> 餘額：{balance} &8({operator})"
+  history-empty: "{prefix}&c{player} 沒有交易紀錄。"
+  
+  reload-started: "{prefix}&a開始重新載入配置檔..."
+  reload-completed: "{prefix}&a配置檔重新載入完成。"
+
+pay:
+  success-sender: "{prefix}&a你已轉帳 &e{amount} &a給 {player}。"
+  success-receiver: "{prefix}&a你收到來自 {player} 的 &e{amount}&a。"
+  
+  insufficient-balance: "{prefix}&c你的餘額不足。"
+  below-minimum: "{prefix}&c轉帳金額低於最低限制 {amount}。"
+  cannot-pay-self: "{prefix}&c你不能轉帳給自己。"
+  target-not-found: "{prefix}&c目標玩家不存在。"
+  cap-exceeded: "{prefix}&c對方餘額已達上限，無法完成轉帳。"
+  
+  negative-amount: "{prefix}&c轉帳金額必須為正數。"
+
+baltop:
+  header: "{prefix}&6=== 餘額排行榜（第 {page}/{max_page} 頁） ==="
+  entry: "&e#{rank} &f{player} &7- &a{balance}"
+  footer: "&8使用 /baltop <頁碼> 切換頁數"
+  empty: "{prefix}&c排行榜為空。"
+  invalid-page: "{prefix}&c無效的頁碼。"
+
+commands:
+  economy:
+    header: "{prefix}&6=== 經濟指令 ==="
+    give: "{prefix}&e/economy give <玩家> <金額> &7- 給予玩家金錢"
+    take: "{prefix}&e/economy take <玩家> <金額> &7- 扣除玩家金錢"
+    set: "{prefix}&e/economy set <玩家> <金額> &7- 設定玩家餘額"
+    wipe: "{prefix}&e/economy wipe &7- 清空所有玩家餘額"
+    confirm: "{prefix}&e/economy confirm &7- 確認清空操作"
+    history: "{prefix}&e/economy history <玩家> [頁碼] &7- 查看交易紀錄"
+    reload: "{prefix}&e/economy reload &7- 重新載入設定"
+  pay:
+    usage: "{prefix}&c用法：/pay <玩家> <金額>"
+  status:
+    header: "{prefix}&6=== BetterEconomy 狀態 ==="
+    plugin: "{prefix}&e插件：&a已啟用"
+    vault: "{prefix}&eVault：{status}"
+    placeholderapi: "{prefix}&ePlaceholderAPI：{status}"
+    database: "{prefix}&e資料庫：&a已初始化"
+    commands: "{prefix}&e指令：&a已就緒"
+    usage: "{prefix}&c用法：/bettereconmy status"
+
+# Log types for history command
+log-types:
+  GIVE: "增加"
+  TAKE: "扣除"
+  SET: "設定"
+  PAY_SEND: "轉帳支出"
+  PAY_RECEIVE: "轉帳收入"
+  WIPE: "全服重置"
+  STARTING_BALANCE: "初始餘額"
+  PLUGIN_API: "插件API"
+
+# Transaction reason formatting
+reasons:
+  admin-give: "管理員增加"
+  admin-take: "管理員扣除"
+  admin-set: "管理員設定"
+  player-pay: "來自 {player} 的轉帳"
+  wipe: "全服經濟重置"
+  api: "插件：{plugin}"

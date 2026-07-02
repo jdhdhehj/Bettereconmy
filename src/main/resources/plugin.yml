@@ -1,0 +1,129 @@
+name: BetterEconomy
+version: ${project.version}
+description: 一個適用於 Purpur 伺服器的綜合經濟插件，支援 Vault 與 PlaceholderAPI
+author: BetterTeam
+main: tw.betterteam.economy.BetterEconomy
+load: STARTUP
+
+# Minecraft 版本相容性
+api-version: "26.1"
+
+# 支援的 Purpur 版本：26.1.2+
+supported-minecraft-versions:
+  - "26.1.2"
+
+# 軟依賴
+softdepend:
+  - Vault
+  - PlaceholderAPI
+
+# 指令
+commands:
+  economy:
+    description: 經濟管理主指令
+    usage: "/economy <give|take|set|wipe|confirm|history|reload> [參數]"
+    aliases:
+      - eco
+
+  balance:
+    description: 查詢玩家餘額
+    usage: "/balance [玩家名稱]"
+    aliases:
+      - bal
+      - money
+    permission: economy.balance.self
+
+  baltop:
+    description: 查看餘額排行榜
+    usage: "/baltop [頁碼]"
+    aliases:
+      - balancetop
+      - moneytop
+    permission: economy.baltop
+
+  pay:
+    description: 轉帳給其他玩家
+    usage: "/pay <玩家名稱> <金額>"
+    permission: economy.pay
+
+  bettereconmy:
+    description: 顯示 BetterEconomy 執行狀態
+    usage: "/bettereconmy status"
+    aliases:
+      - be
+
+# 權限
+permissions:
+  economy.*:
+    description: 所有經濟權限
+    children:
+      economy.admin.*: true
+      economy.balance.*: true
+      economy.baltop: true
+      economy.pay: true
+
+  economy.admin.*:
+    description: 所有管理員權限
+    default: op
+    children:
+      economy.admin.give: true
+      economy.admin.take: true
+      economy.admin.set: true
+      economy.admin.wipe: true
+      economy.admin.history: true
+      economy.admin.reload: true
+
+  economy.admin.give:
+    description: 允許給予玩家金錢
+    default: op
+
+  economy.admin.take:
+    description: 允許扣除玩家金錢
+    default: op
+
+  economy.admin.set:
+    description: 允許設定玩家餘額
+    default: op
+
+  economy.admin.wipe:
+    description: 允許重置整個伺服器經濟資料
+    default: op
+
+  economy.admin.history:
+    description: 允許查看交易紀錄
+    default: op
+
+  economy.admin.reload:
+    description: 允許重新載入插件設定
+    default: op
+
+  economy.balance.*:
+    description: 所有餘額權限
+    default: true
+    children:
+      economy.balance.self: true
+      economy.balance.others: true
+
+  economy.balance.self:
+    description: 允許查詢自己的餘額
+    default: true
+
+  economy.balance.others:
+    description: 允許查詢其他玩家的餘額
+    default: op
+
+  economy.baltop:
+    description: 允許查看餘額排行榜
+    default: true
+
+  economy.pay:
+    description: 允許轉帳給其他玩家
+    default: true
+
+  economy.pay.bypass.limit:
+    description: 允許跳過最低轉帳金額限制
+    default: op
+
+  economy.exempt.cap:
+    description: 玩家餘額不受上限限制
+    default: op

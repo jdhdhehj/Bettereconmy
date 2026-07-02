@@ -1,0 +1,136 @@
+# ========================================
+# BetterEconomy 設定檔
+# ========================================
+
+# ========================================
+# 資料庫設定
+# ========================================
+database:
+  # 儲存類型：SQLITE 或 MYSQL
+  type: SQLITE
+
+  sqlite:
+    # SQLite 資料庫檔案路徑（相對於 plugins/BetterEconomy）
+    file: "economy.db"
+
+  mysql:
+    host: "127.0.0.1"
+    port: 3306
+    database: "economy"
+    username: "root"
+    password: "password"
+    useSSL: false
+
+    # HikariCP 連線池設定
+    pool:
+      maximum-pool-size: 10
+      minimum-idle: 2
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+
+    # 多插件共用資料庫時的資料表前綴
+    table-prefix: "eco_"
+
+# ========================================
+# 跨服經濟同步設定
+# （只有 MySQL 模式下才會生效）
+# ========================================
+cross-server-sync:
+  enabled: false
+
+  # 伺服器識別碼：每個伺服器必須擁有唯一的 server-id
+  server-id: "server-1"
+
+  # 同步方式：目前僅支援 DATABASE_POLLING
+
+  # 輪詢間隔（tick），僅 DATABASE_POLLING 模式下有效
+  polling-interval-ticks: 100
+
+  # 離線玩家收入衝突解決策略：
+  # LAST_WRITE_WINS - 以最後一次寫入為主（簡單，但可能遺失中間變更）
+  # DELTA_MERGE - 以差量累加方式處理，而不是覆蓋餘額，
+  #                避免多台伺服器同時發放給離線玩家時發生覆蓋
+  conflict-resolution: DELTA_MERGE
+
+  # 使用版本欄位做樂觀鎖，避免競態衝突
+  optimistic-locking: true
+
+# ========================================
+# 經濟系統設定
+# ========================================
+economy:
+  # 貨幣精度（小數位數）
+  decimal-places: 2
+
+  # 是否允許負餘額
+  allow-negative-balance: false
+
+  # 新玩家初始餘額
+  starting-balance:
+    enabled: true
+    amount: 100.0
+
+  # 餘額上限
+  balance-cap:
+    enabled: false
+    amount: 1000000.0
+
+  # 轉帳設定
+  pay:
+    # 最低轉帳金額
+    minimum-amount: 1.0
+    # 是否允許轉帳給自己
+    allow-self-pay: false
+    # 是否允許轉帳給離線玩家
+    allow-offline-target: true
+
+  # 貨幣顯示格式
+  format:
+    # 是否啟用數字縮寫（1000 -> 1K，1000000 -> 1M）
+    abbreviate: false
+
+    # 貨幣符號
+    # 內建符號：DOLLAR($) EURO(€) POUND(£) YEN(¥) WON(₩) RUBLE(₽) CENT(¢) CUSTOM
+    currency-symbol: DOLLAR
+    custom-symbol: "coin"
+
+    # 符號位置：PREFIX ($100) 或 SUFFIX (100$)
+    symbol-position: SUFFIX
+
+    # 千分位分隔符號
+    thousands-separator: ","
+
+  # 餘額排行榜設定
+  baltop:
+    entries-per-page: 10
+    cache-seconds: 60
+    # 排除的玩家（例如管理員測試帳號）
+    excluded-players: []
+
+  # 交易紀錄設定
+  history:
+    entries-per-page: 10
+    # 保留天數（0 = 永久保留）
+    retention-days: 90
+
+# ========================================
+# Vault 整合設定
+# ========================================
+vault:
+  enabled: true
+  # Vault 中顯示的貨幣名稱
+  currency-name-singular: "Coin"
+  currency-name-plural: "Coins"
+
+# ========================================
+# PlaceholderAPI 整合設定
+# ========================================
+placeholderapi:
+  enabled: true
+
+# ========================================
+# 除錯模式
+# ========================================
+debug: false
+
